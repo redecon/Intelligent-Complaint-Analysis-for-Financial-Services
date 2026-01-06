@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.log
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Data files
+data/processed/*
+!data/processed/.gitkeep   # keep folder structure but ignore contents
+data/raw/*
+!data/raw/.gitkeep         # same idea for raw data
+
+# Vector store indexes
+vector_store/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache/
