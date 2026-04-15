@@ -1,90 +1,44 @@
-# Intelligent Complaint Analysis for Financial Services
+### Methodology
+The dataset was sourced from the Google Play Store, focusing on user reviews for three Ethiopian banking applications: Commercial Bank of Ethiopia (CBE), Bank of Abyssinia (BOA), and Dashen Bank.
 
-A repository for scalable, explainable complaint classification and analysis for financial services. Combines data ingestion, preprocessing, model training (NLP + tabular), evaluation, and a lightweight inference API.
+**Collection Method:** Reviews were collected using the google-play-scraper library, with a target of 500 reviews per bank. Parameters were restricted to the English language, Ethiopia region, and sorted by newest first to ensure recency. Pagination was handled until the target count was reached or no further reviews were available.
 
-## Features
-- Complaint ingestion and cleansing pipeline
-- Text classification (intent / product / routing) with explainability (SHAP/LIME)
-- Named entity recognition and key-phrase extraction
-- Dashboard-ready outputs and evaluation metrics
-- REST inference endpoint for batch/real-time scoring
+**Collection Date:** 4/15/2026
 
-## Quick start
+**Preprocessing Steps:**
 
-Prerequisites:
-- Python 3.9+
-- git, virtualenv or venv
-- (Optional) CUDA for GPU training
+- Removal of duplicate entries based on review text and bank.
 
-Clone and prepare environment:
-```bash
-git clone <repo-url>
-cd Intelligent-Complaint-Analysis-for-Financial-Services
-python -m venv .venv
-# Windows PowerShell
-.venv\Scripts\Activate.ps1
-# Unix
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+- Exclusion of rows with missing or empty review content.
 
-Run data preparation, training and evaluation (examples):
-```bash
-python -m scripts.prepare_data --input data/raw --output data/processed
-python -m scripts.train --config configs/train.yaml
-python -m scripts.evaluate --model artifacts/model.pt --data data/processed/test.csv
-```
+- Normalization of review dates, with invalid entries discarded.
 
-Start API:
-```bash
-uvicorn api.app:app --reload --port 8000
-# then POST to http://localhost:8000/predict
-```
+- Standardization of column names (review, rating, date, bank, source, scrape_date).
 
-## Project layout (recommended)
-- data/               # raw and processed datasets
-- notebooks/          # exploratory analysis and demos
-- src/
-    - ingestion/        # data loaders
-    - preprocessing/    # cleaning & feature engineering
-    - models/           # model definitions and trainers
-    - explainability/   # SHAP/LIME wrappers
-    - api/              # FastAPI/Flask inference app
-- scripts/            # CLI utilities (prepare_data, train, evaluate)
-- configs/            # YAML configurations
-- requirements.txt
-- README.md
+- Conversion of ratings to integer format.
 
-## Data
-- Expected: CSV/JSON with columns like id, text, product, sub_product, issue, company, state, submitted_at
-- Keep PII removal and anonymization as part of preprocessing (scripts/preprocess.py)
+**Final Dataset:** After preprocessing, the dataset size was reduced from the initial collection, with a retention rate of  83% (calculated as final count divided by initial count).
 
-## Modeling & Evaluation
-- Support for transformers (Hugging Face) and classical models (scikit-learn)
-- Use cross-validation, class-weighting or sampling for imbalanced targets
-- Save artifacts (tokenizers, encoders, model weights) under artifacts/
+**Output File:** The cleaned dataset is stored at: data/processed/reviews_clean.csv
 
-## Inference / API
-- /predict endpoint accepts JSON { "id": "...", "text": "..." } and returns predictions + confidence + explanations
-- Bulk scoring supports CSV upload
+### Results Summary
+The scraping pipeline successfully collected 1,500 reviews across three banking applications (CBE, BOA, Dashen), meeting the target of 500 reviews per bank.
 
-## Configuration
-- Use YAML files in configs/ for reproducible experiments (hyperparams, data splits, model type)
+**Preprocessing Outcomes:**
 
-## Testing
-- Minimal unit & integration tests under tests/
-- Run:
-```bash
-pytest -q
-```
+- Duplicates removed: 255
 
-## Contributing
-- Open issues for feature requests/bugs
-- Follow branch -> PR workflow; include tests for new logic
+- Missing text removed: 0
 
-## License
-MIT License — see LICENSE
+- Invalid dates removed: 0
 
----
+- Final dataset size: 1,245 reviews
 
-For usage examples and sample data, check notebooks/ and scripts/ for runnable demos.
+- Retention rate: 83%
+
+**Interpretation:**
+Approximately one in six reviews was discarded due to duplication, while the majority of records were retained. The final dataset exceeds the minimum requirement of 400 reviews per bank, ensuring sufficient coverage for downstream sentiment analysis.
+
+**Output:** 
+The cleaned dataset is stored at:
+data/processed/reviews_clean.csv
