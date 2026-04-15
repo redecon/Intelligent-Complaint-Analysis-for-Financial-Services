@@ -1,35 +1,18 @@
-# Python
+# Python standard ignores
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.pkl
-*.log
-
-# Virtual environments
-.venv/
-env/
-venv/
-ENV/
+*.env
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Data files
-data/processed/*
-!data/processed/.gitkeep   # keep folder structure but ignore contents
-data/raw/*
-!data/raw/.gitkeep         # same idea for raw data
+# Data folder contents
+data/*.csv
+data/*.db
 
-# Vector store indexes
-vector_store/
-
-# VS Code
-.vscode/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Cache
-.cache/
+# Environment and virtualenv
+.env
+venv/
+*.egg-info/
